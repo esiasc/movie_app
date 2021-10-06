@@ -1,43 +1,55 @@
+import PropTypes from "prop-types";
 
-function Food({name, picture}){
+function Food({name, picture, rating}){
   return <div>
     <h2>I like {name}</h2>
+    <h4>{rating}/5.0</h4>
     <img src={picture} alt={name} />
   </div>
 }
 // name, picture 두 prop을 전달 받아온다.
 // id가 key prop으로 존재는 하지만 데이터를 전달받진 않는다.
 
+Food.propTypes = {
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired
+}
+
 const foodILike = [
   {
     id: 1,
     name: "Taco",
     image:
-      "https://images-gmi-pmc.edge-generalmills.com/e59f255c-7498-4b84-9c9d-e578bf5d88fc.jpg"
+      "https://images-gmi-pmc.edge-generalmills.com/e59f255c-7498-4b84-9c9d-e578bf5d88fc.jpg",
+    rating: 5.0
   },
   {
     id: 2,
     name: "Pizza",
     image:
-      "https://barpizzaque.com/wp-content/uploads/2021/05/Cheese-Pizza-1024x768.gif"
+      "https://barpizzaque.com/wp-content/uploads/2021/05/Cheese-Pizza-1024x768.gif",
+    rating: 4.9
   },
   {
     id: 3,
     name: "Salad",
     image:
-      "https://www.twopeasandtheirpod.com/wp-content/uploads/2019/06/Easy-Green-Salad-4.jpg"
+      "https://www.twopeasandtheirpod.com/wp-content/uploads/2019/06/Easy-Green-Salad-4.jpg",
+    rating: 4.8
   },
   {
     id: 4,
     name: "Hot Pot",
     image:
-      "https://www.chatelaine.com/wp-content/uploads/2021/02/CHE02_WEB_FD_HOTPOT_ArticleFeature.jpg"
+      "https://www.chatelaine.com/wp-content/uploads/2021/02/CHE02_WEB_FD_HOTPOT_ArticleFeature.jpg",
+    rating: 5.0
   }
 ]
 
 function renderFood(dish){
   console.log(dish);
-  return <Food key={dish.id} name={dish.name} picture={dish.image} />
+  return <Food key={dish.id} name={dish.name} picture={dish.image} rating={dish.rating} />
 }
 
 function App() {
