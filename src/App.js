@@ -1,14 +1,16 @@
 import React from "react";
 import axios from "axios";
+import Movie from "./Movie";
 
 class App extends React.Component {
   state = {
     isLoading: true,
     movies: []
   };
-  // 미래에 사용하고자 하는 state를 선언하는건 필수가 아니다. 미래를 위해 계획하는 것 뿐이다. 나중에 state를 추가해도 된다. (처음에 선언해두는 것이 좋은 습관이긴 함)
+  
   getMovies = async () => {
-    const movies = await axios.get("https://yts-proxy.nomadcoders1.now.sh/list_movies.json");
+    const {data: {data: {movies}}} = await axios.get("https://yts-proxy.nomadcoders1.now.sh/list_movies.json?sort_by=rating");
+    this.setState({movies, isLoading: false});
   };
   
   componentDidMount(){
@@ -16,14 +18,30 @@ class App extends React.Component {
   }
   
   render(){
-    const { isLoading } = this.state;
+    const { isLoading, movies } = this.state;
     return (
-      <div>
-        {isLoading ? "Loading..." : "We are ready"}
-      </div>
+      <section class="container">
+        {isLoading 
+          ? <div class="loader">
+              <span class="loader__text">Loading...</span>
+            </div> 
+          : (
+            <div class="movies">
+              {movies.map(movie => (
+                <Movie 
+                  key={movie.id}
+                  id={movie.id} 
+                  year={movie.year} 
+                  title={movie.title} 
+                  summary={movie.summary} 
+                  poster={movie.medium_cover_image} 
+                />
+              ))}
+            </div>
+          )}
+      </section>
       );
   }
 }
-// es6
 
 export default App;
